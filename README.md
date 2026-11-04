@@ -377,7 +377,7 @@ flowchart TD
 
 - **MATLAB** y **Simulink** (con *Control System Toolbox*).
 - **Simscape Electrical**.
-- **Python 3.x** (con librerías `numpy`, `scipy`, `matplotlib`).
+- **Python 3.x** (con librerías `numpy`, `scipy`, `matplotlib`,`control`).
 - **Visual Studio Code**.
 - **BioRender** (para la elaboración del diagrama biológico `Biorender.jpg`).
 - **Git y GitHub**.
