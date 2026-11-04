@@ -228,8 +228,8 @@ Se diseñó una estructura de control retroalimentada donde la respuesta del mú
 
 ```mermaid
 flowchart LR
-    R["r(t)<br/>(Control / Sano)"] -->|"+"| SUM(("Σ"))
-    SUM -->|"e(t)"| PI["Controlador PI<br/>(k_P, k_I)"]
+    R["Fs(t)<br/>(Control / Sano)"] -->|"+"| SUM(("Σ"))
+    SUM -->|"PID(t)"| PI["Controlador PI<br/>(k_P, k_I)"]
     PI -->|"u(t)"| CASE["Planta Atrofia<br/>(Caso) G(s)"]
     CASE --> OUTPUT["Fs_caso(t)"]
     OUTPUT -->|" - "| SUM
