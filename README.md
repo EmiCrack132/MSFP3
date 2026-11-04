@@ -98,6 +98,12 @@ La práctica integró contenidos correspondientes a las unidades temáticas de l
 <a id="analogia"></a>
 ## Modelo físico y analogía electromecánica
 
+<p align="center">
+  <img src="Biorender.jpg" alt="Diagrama Biológico en BioRender" width="700"/>
+  <br>
+  <em>Figura: Esquema anatómico y biomecánico del tejido musculoesquelético diseñado en BioRender.</em>
+</p>
+
 El compartimento musculoesquelético se modeló mecánicamente como un elemento contráctil activo que genera una fuerza $F_0(t) = \alpha F(t)$ ($0 < \alpha < 1$), conectado en paralelo con una estructura viscosa $R$ y en serie con la elasticidad tendinosa/sarcolémica $C_s$, todo en paralelo con la elasticidad pasiva del tejido $C_p$.
 
 ### Equivalencias de la analogía fuerza-voltaje
