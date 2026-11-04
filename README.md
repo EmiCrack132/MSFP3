@@ -225,14 +225,14 @@ El cuaderno computacional `Gomez23212196.mlx` ejecuta las simulaciones, extrae l
 
 ### 1. Esquema de control
 
-Se diseñó una estructura de control retroalimentada donde la respuesta del músculo sano $F_{s, \text{control}}(t)$ ingresa como señal de referencia $r(t)$ para guiar la respuesta del tejido atrofiado $F_{s, \text{caso}}(t)$:
+Se diseñó una estructura de control retroalimentada donde la respuesta del músculo sano $F_{s, \text{control}}(t)$ ingresa como señal de referencia para guiar la respuesta del tejido atrofiado $F_{s, \text{caso}}(t)$:
 
 ```mermaid
 flowchart LR
     R["Fs(t): Control"] -->|"+"| SUM(("Σ"))
     SUM --> PI["Controlador PI"]
-    PI -->|"PI(t)"| CASE["FT: Caso"]
-    CASE --> OUTPUT["Fs(t): Caso"]
+    PI --> CASE["FT: Caso"]
+    CASE --> OUTPUT["PI(t): Tratamiento"]
     OUTPUT -->|"- "| SUM
 ```
 
