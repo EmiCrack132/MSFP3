@@ -1,8 +1,8 @@
 # Práctica 5.5 — Modelado y control del sistema musculoesquelético
 
-Repositorio académico de la asignatura **Modelado de Sistemas Fisiológicos**, correspondiente al programa de **Ingeniería Biomédica** del Tecnológico Nacional de México / Instituto Tecnológico de Tijuana. Esta práctica integra modelado mecánico del tejido muscular, analogías electromecánicas (fuerza-voltaje), análisis en el dominio de Laplace, simulación computacional *in silico* (MATLAB, Simulink, Simscape y Python) y diseño de controladores PID para la compensación de atrofia muscular.
+Repositorio académico de la asignatura **Modelado de Sistemas Fisiológicos**, correspondiente al programa de **Ingeniería Biomédica** del Tecnológico Nacional de México / Instituto Tecnológico de Tijuana. Esta práctica integra el modelado mecánico del tejido muscular, analogías electromecánicas (fuerza-voltaje), análisis analítico en el dominio de Laplace mediante superposición, simulación computacional *in silico* (MATLAB, Simulink, Simscape y Python) y el diseño de controladores PID para la compensación de la atrofia muscular.
 
-El caso de estudio representa la **dinámica viscoelástica del músculo esquelético** mediante un modelo mecánico de parámetros concentrados (elementos elásticos en serie/paralelo y amortiguamiento viscoso). Se busca comparar la respuesta del sistema en un individuo sano (**Control**) frente a un escenario simulado de atrofia muscular (**Caso**), diseñando un controlador PID que reduzca la discrepancia entre ambas respuestas.
+El caso de estudio representa la **dinámica viscoelástica del músculo esquelético** mediante un modelo mecánico de parámetros concentrados (elementos elásticos en serie/paralelo y amortiguamiento viscoso). Se analiza la respuesta del sistema en un individuo sano (**Control**) frente a un escenario simulado de atrofia muscular (**Caso**), implementando un controlador PID que elimina la discrepancia entre ambas respuestas.
 
 **Docente:** Dr. Paul Antonio Valle Trujillo  
 **Correo:** paul.valle@tectijuana.edu.mx · paul.vt@tijuana.tecnm.mx  
@@ -10,9 +10,10 @@ El caso de estudio representa la **dinámica viscoelástica del músculo esquel�
 **Institución:** Tecnológico Nacional de México / Instituto Tecnológico de Tijuana  
 **Asignatura:** Modelado de Sistemas Fisiológicos (IBF-1020)  
 **Programa:** Ingeniería Biomédica  
-**Estudiante:** Nombre completo · Número de control · correo@tijuana.tecnm.mx
+**Estudiante:** Nombre completo · Número de control · correo@tijuana.tecnm.mx  
 
 **Repositorio de la asignatura:** https://github.com/DrPaulValle/MSF-IBF1020  
+**Repositorio del proyecto:** https://github.com/EmiCrack132/MSFP3  
 **Sede:** Blvd. Alberto Limón Padilla s/n, Tijuana, C. P. 22454, B. C., México.
 
 ---
@@ -43,11 +44,11 @@ El caso de estudio representa la **dinámica viscoelástica del músculo esquel�
 <a id="resumen"></a>
 ## Resumen
 
-La práctica tiene como propósito **modelar, analizar y controlar la respuesta dinámica del sistema musculoesquelético** ante un caso de atrofia muscular mediante experimentación *in silico*. El compartimento muscular se representa mediante un modelo mecánico constituido por un elemento contráctil activo ($F_0$), una compliancia elástica en serie ($C_s$), una compliancia elástica en paralelo ($C_p$) y una amortiguación viscosa ($R$).
+La práctica tuvo como propósito **modelar, analizar y controlar la respuesta dinámica del sistema musculoesquelético** ante un caso de atrofia muscular mediante experimentación *in silico*. El compartimento muscular se representó mediante un modelo mecánico constituido por un elemento contráctil activo ($F_0$), una compliancia elástica en serie ($C_s$), una compliancia elástica en paralelo ($C_p$) y una amortiguación viscosa ($R$).
 
-Haciendo uso de la **analogía fuerza-voltaje**, el sistema mecánico se transforma en un circuito eléctrico equivalente donde las fuerzas corresponden a voltajes, las velocidades a corrientes, las compliancias a capacitancias y la fricción viscosa a resistencias. Se evalúa la respuesta al impulso unitario del sistema en condición normal (control) y se contrasta con la condición de atrofia muscular (caso), caracterizada por un incremento en la componente viscosa ($R$). Finalmente, se sintoniza e implementa un **controlador PID con retroalimentación negativa** para lograr que el tejido atrofiado siga la trayectoria del tejido sano, verificando la consistencia entre MATLAB/Simulink, Simscape Electrical y Python.
+Haciendo uso de la **analogía fuerza-voltaje**, el sistema mecánico se transformó en un circuito eléctrico equivalente donde las fuerzas corresponden a voltajes, las velocidades a corrientes, las compliancias a capacitancias y la fricción viscosa a resistencias. Debido a la presencia de la fuente dependiente $F_0(t) = \alpha F(t)$, el modelo se dedujo analíticamente utilizando el **principio de superposición en el dominio de Laplace**. Se evaluó la respuesta al impulso y al escalón unitario en condición normal (control) y se contrastó con la condición de atrofia muscular (caso), caracterizada por un incremento en la componente viscosa ($R$). Finalmente, se sintonizó e implementó un **controlador PID con retroalimentación negativa** para lograr que el tejido atrofiado siga la trayectoria del tejido sano, verificando la consistencia entre MATLAB/Simulink, Simscape Electrical y Python.
 
-**Palabras clave:** Sistema musculoesquelético; Atrofia muscular; Analogía fuerza-voltaje; Controlador PID; Simulación in silico.
+**Palabras clave:** Sistema musculoesquelético; Atrofia muscular; Controlador PID; Modelo matemático; Simulaciones numéricas.
 
 [Volver al contenido](#contenido)
 
@@ -67,8 +68,8 @@ Formular el modelo matemático del sistema musculoesquelético mediante su analo
 ### Objetivos específicos
 
 - Convertir el modelo mecánico viscoelástico muscular a su circuito eléctrico equivalente utilizando la analogía fuerza-voltaje.
-- Obtener la función de transferencia $G(s) = X(s)/F(s)$ que relaciona la fuerza aplicada con el desplazamiento muscular.
-- Analizar la ubicación de polos, la estabilidad y el error en estado estacionario para las condiciones de control y caso.
+- Derivar analíticamente la función de transferencia $G(s) = \frac{F_s(s)}{F(s)}$ aplicando el principio de superposición en el dominio de Laplace.
+- Evaluar la posición del polo $\lambda = -\frac{1}{R(C_p + C_s)}$ y el error en estado estacionario $e_{ss} = \alpha$.
 - Implementar y simular ambas condiciones en MATLAB, Simulink y Simscape Electrical ante una entrada de impulso unitario.
 - Sintonizar las ganancias ($k_P, k_I, k_D$) de un controlador PID que minimice el error $e(t) = x_{\text{control}}(t) - x_{\text{caso}}(t)$.
 - Reproducir el comportamiento dinámico en lazo abierto y lazo cerrado mediante scripts de Python.
@@ -81,12 +82,12 @@ Formular el modelo matemático del sistema musculoesquelético mediante su analo
 <a id="temario"></a>
 ## Relación con el temario
 
-La práctica integra contenidos correspondientes a las unidades temáticas de la asignatura **Modelado de Sistemas Fisiológicos (IBF-1020)**:
+La práctica integró contenidos correspondientes a las unidades temáticas de la asignatura **Modelado de Sistemas Fisiológicos (IBF-1020)**:
 
 | Unidad | Área | Contenidos aplicados |
 |---|---|---|
-| I | Sistemas de control retroalimentados | Diagramas de bloques, respuesta al impulso, error de seguimiento y análisis de estabilidad de polos |
-| II | Modelado matemático | Analogía mecánica (fuerza-voltaje), modelos de parámetros concentrados del sistema musculoesquelético y funciones de transferencia |
+| I | Sistemas de control retroalimentados | Diagramas de bloques, respuesta al impulso, error de seguimiento $e_{ss} = \alpha$ y análisis de estabilidad de polos |
+| II | Modelado matemático | Analogía mecánica (fuerza-voltaje), principio de superposición, modelos de parámetros concentrados del sistema musculoesquelético y funciones de transferencia |
 | III | Controladores | Controladores PID, sintonización de ganancias y sistemas de compensación *in silico* |
 
 [Volver al contenido](#contenido)
@@ -96,7 +97,7 @@ La práctica integra contenidos correspondientes a las unidades temáticas de la
 <a id="analogia"></a>
 ## Modelo físico y analogía electromecánica
 
-El compartimento musculoesquelético se modela mecánicamente como un elemento contráctil activo que genera una fuerza $F_0(t) = \alpha F(t)$ ($0 < \alpha < 1$), conectado en paralelo con una estructura viscosa $R$ y en serie con la elasticidad tendinosa/sarcolémica $C_s$, todo en paralelo con la elasticidad pasiva del tejido $C_p$.
+El compartimento musculoesquelético se modeló mecánicamente como un elemento contráctil activo que genera una fuerza $F_0(t) = \alpha F(t)$ ($0 < \alpha < 1$), conectado en paralelo con una estructura viscosa $R$ y en serie con la elasticidad tendinosa/sarcolémica $C_s$, todo en paralelo con la elasticidad pasiva del tejido $C_p$.
 
 ### Equivalencias de la analogía fuerza-voltaje
 
@@ -120,7 +121,7 @@ El compartimento musculoesquelético se modela mecánicamente como un elemento c
 | $C_p$ | $100$ | $100$ | $\mu\mathrm{F}$ | Elasticidad pasiva en paralelo |
 | $R$ | $100$ | $10\,000$ ($10\,\mathrm{k}$) | $\Omega$ | Coeficiente de fricción/viscosidad muscular |
 
-La atrofia muscular se simula mediante un incremento severo en la componente de resistencia viscosa ($R = 100\,\Omega \to 10\,\mathrm{k}\Omega$), lo cual degrada la dinámica de deformación del tejido.
+La atrofia muscular se simuló mediante un incremento severo en la componente de resistencia viscosa ($R = 100\,\Omega \to 10\,\mathrm{k}\Omega$), lo cual degrada la dinámica de deformación del tejido.
 
 [Volver al contenido](#contenido)
 
@@ -129,19 +130,41 @@ La atrofia muscular se simula mediante un incremento severo en la componente de 
 <a id="modelo"></a>
 ## Formulación matemática
 
-### 1. Ecuaciones del sistema mecánico y circuito equivalente
+Al existir una fuerza activa dependiente $F_0(t) = \alpha F(t)$, se aplicó el **principio de superposición** en el dominio de Laplace para determinar la respuesta total $F_s(s) = F_{s1}(s) + F_{s2}(s)$.
 
-A partir del equilibrio de fuerzas en los nodos de deformación $x(t)$ y $x_1(t)$, y aplicando la transformada de Laplace con condiciones iniciales nulas:
+### 1. Circuito 1: Apagando la fuente dependiente $F_0(t)$
 
-$$F(t) = F_0(t) + R \frac{d}{dt}[x(t) - x_1(t)] + \frac{1}{C_p} x(t)$$
+Al considerar solo la fuerza externa $F(t)$:
 
-### 2. Función de transferencia
+$$C_p \frac{d F_{s1}(t)}{dt} = C_s \frac{d\left(F(t) - F_{s1}(t)\right)}{dt} + \frac{F(t) - F_{s1}(t)}{R}$$
 
-Relacionando la entrada de fuerza $F(s)$ con el desplazamiento muscular $X(s)$, se obtiene la función de transferencia del sistema $G(s) = \frac{X(s)}{F(s)}$:
+Transformando al dominio de Laplace con condiciones iniciales nulas:
 
-$$G(s) = \frac{X(s)}{F(s)} = \frac{(1 - \alpha) R C_s s + 1}{R C_s s \left( \frac{1}{C_p} \right) + \frac{1}{C_s} + \frac{1}{C_p}}$$
+$$C_p s F_{s1}(s) = C_s s \left(F(s) - F_{s1}(s)\right) + \frac{F(s) - F_{s1}(s)}{R}$$
 
-*(Sustituir los valores numéricos específicos correspondientes a las tablas de **Control** y **Caso** para obtener $G_{\text{control}}(s)$ y $G_{\text{caso}}(s)$)*.
+Despejando $F_{s1}(s)$:
+
+$$F_{s1}(s) = \frac{R C_s s + 1}{R(C_p + C_s) s + 1} F(s)$$
+
+### 2. Circuito 2: Apagando la fuerza externa $F(t)$
+
+Considerando únicamente la contribución de $F_0(t) = \alpha F(t)$:
+
+$$-\alpha F(s) = R x(s) + \frac{x(s)}{(C_p + C_s) s}$$
+
+Sabiendo que $F_{s2}(s) = \frac{x(s)}{(C_p + C_s) s}$, se obtiene:
+
+$$F_{s2}(s) = \frac{-\alpha}{R(C_p + C_s) s + 1} F(s)$$
+
+### 3. Función de transferencia global
+
+Sumando las componentes $F_{s1}(s)$ y $F_{s2}(s)$:
+
+$$F_s(s) = \frac{R C_s s + 1}{R(C_p + C_s) s + 1} F(s) - \frac{\alpha}{R(C_p + C_s) s + 1} F(s)$$
+
+Por lo tanto, la función de transferencia del sistema muscular es:
+
+$$\boxed{G(s) = \frac{F_s(s)}{F(s)} = \frac{R C_s s + 1 - \alpha}{R (C_p + C_s) s + 1}}$$
 
 [Volver al contenido](#contenido)
 
@@ -150,11 +173,21 @@ $$G(s) = \frac{X(s)}{F(s)} = \frac{(1 - \alpha) R C_s s + 1}{R C_s s \left( \fra
 <a id="analisis"></a>
 ## Análisis temporal y de estabilidad
 
-### 1. Polos y estabilidad
-Se evalúan las raíces del denominador de $G_{\text{control}}(s)$ y $G_{\text{caso}}(s)$. Dado que todos los coeficientes de la planta son reales y positivos, los polos se localizan en el semiplano izquierdo del plano complejo ($\mathrm{Re}(\lambda_i) < 0$), garantizando la estabilidad BIBO del sistema tanto en condición sana como en atrofia.
+### 1. Ubicación del polo y estabilidad en lazo abierto
 
-### 2. Respuesta al impulso unitario
-Se analiza la respuesta transitoria del desplazamiento $x(t)$ ante una entrada de impulso unitario $F(t) = \delta(t)$ en el intervalo $0 \le t \le 10\,\mathrm{s}$. La elevada resistencia en el **Caso** genera un sobreamortiguamiento severo y una lentitud considerable en la recuperación del desplazamiento muscular respecto al **Control**.
+El polinomio del denominador establece el polo característico del sistema:
+
+$$R (C_p + C_s) s + 1 = 0 \implies \lambda = -\frac{1}{R(C_p + C_s)}$$
+
+Dado que los parámetros físicos de la compliancia y fricción son positivos ($R, C_p, C_s > 0$), la raíz se encuentra estrictamente en el semiplano izquierdo ($\mathrm{Re}(\lambda) < 0$), garantizando estabilidad BIBO en condición sana y de atrofia.
+
+### 2. Error en estado estacionario ($e_{ss}$)
+
+Ante una entrada en escalón unitario $F(s) = \frac{1}{s}$, el Teorema del Valor Final indica:
+
+$$e_{ss} = \lim_{s \to 0} s F(s) \left[1 - G(s)\right] = \lim_{s \to 0} s \left(\frac{1}{s}\right) \left[1 - \frac{R C_s s + 1 - \alpha}{R(C_p + C_s) s + 1}\right] = 1 - (1 - \alpha) = \alpha$$
+
+El error en estado estacionario del sistema muscular equivale numéricamente a la fracción de activación $\alpha$.
 
 [Volver al contenido](#contenido)
 
@@ -163,9 +196,9 @@ Se analiza la respuesta transitoria del desplazamiento $x(t)$ ante una entrada d
 <a id="senales"></a>
 ## Señales de entrada y condiciones de simulación
 
-- **Entrada nominal:** Impulso unitario de fuerza $F(t) = \delta(t)$ (representado analíticamente o mediante un pulso de corta duración para la experimentación *in silico*).
+- **Entrada nominal:** Impulso unitario de fuerza $F(t) = \delta(t)$ y escalón unitario $F(t) = u(t)$.
 - **Intervalo de simulación:** $0 \le t \le 10\,\mathrm{s}$.
-- **Criterio de error:** $e(t) = x_{\text{control}}(t) - x_{\text{caso}}(t)$.
+- **Criterio de error a compensar:** $e(t) = x_{\text{control}}(t) - x_{\text{caso}}(t)$.
 
 [Volver al contenido](#contenido)
 
@@ -174,10 +207,10 @@ Se analiza la respuesta transitoria del desplazamiento $x(t)$ ante una entrada d
 <a id="matlab"></a>
 ## Implementación en MATLAB, Simulink y Simscape
 
-Se construyen e implementan tres representaciones equivalentes del sistema en lazo abierto y lazo cerrado:
+Se construyeron e implementaron tres representaciones equivalentes del sistema en lazo abierto y lazo cerrado:
 
 1. **Ecuaciones del sistema:** Bloques de operaciones matemáticas e integradores en Simulink.
-2. **Función de transferencia:** Bloque `Transfer Fcn` con $G_{\text{control}}(s)$ y $G_{\text{caso}}(s)$.
+2. **Función de transferencia:** Bloque `Transfer Fcn` evaluando $G(s) = \frac{R C_s s + 1 - \alpha}{R (C_p + C_s) s + 1}$.
 3. **Circuito equivalente (Simscape):** Componentes físicos $R$, $C_s$ y $C_p$ de *Simscape Electrical*.
 
 El cuaderno computacional `.mlx` ejecuta automáticamente las simulaciones, extrae las variables al *Workspace* y exporta las respuestas en formato PDF.
@@ -191,25 +224,26 @@ El cuaderno computacional `.mlx` ejecuta automáticamente las simulaciones, extr
 
 ### 1. Esquema de control
 
-Se establece un esquema de retroalimentación donde la salida del individuo sano $x_{\text{control}}(t)$ actúa como la señal de referencia $r(t)$. La señal de error $e(t) = x_{\text{control}}(t) - x_{\text{caso}}(t)$ alimenta al controlador PID, el cual aplica una fuerza de compensación $u(t)$ sobre el modelo atrófico (Caso).
+Se diseñó una estructura de control retroalimentada donde la respuesta del músculo sano $x_{\text{control}}(t)$ ingresa como señal de referencia $r(t)$ para guiar la respuesta del tejido atrofiado $x_{\text{caso}}(t)$:
 
-```text
-               +-----+  e(t)   +---------+  u(t)   +---------------+  x_caso(t)
-r(t) ----(+)-->| Sum |-------->| PID(s)  |-------->| Planta Caso   |------> Output
-  (Control) ^  +-----+         +---------+         +---------------+   |
-            |                                                          |
-            +--------------------(-------------------------------------+
+```mermaid
+flowchart LR
+    R["r(t)<br/>(Control / Sano)"] -->|"+"| SUM(("Σ"))
+    SUM -->|"e(t)"| PID["Controlador PID<br/>(k<sub>P</sub>, k<sub>I</sub>, k<sub>D</sub>)"]
+    PID -->|"u(t)"| CASE["Planta Atrofia<br/>(Caso) G(s)"]
+    CASE --> OUTPUT["x<sub>caso</sub>(t)"]
+    CASE -->|" - "| SUM
 ```
 
 ### 2. Sintonización de ganancias
 
-Mediante la herramienta **Tune** del bloque `PID Controller` en Simulink, se sintonizan las ganancias del controlador para el modelo de atrofia:
+Mediante la herramienta **Tune** del bloque `PID Controller` en Simulink, se sintonizaron las ganancias del controlador para el modelo de atrofia:
 
-- Ganancia Proporcional ($k_P$): *[Insertar valor sintonizado]*
-- Ganancia Integral ($k_I$): *[Insertar valor sintonizado]*
-- Ganancia Derivativa ($k_D$): *[Insertar valor sintonizado]*
+- Ganancia Proporcional ($k_P$): *Valor registrado en la simulación*
+- Ganancia Integral ($k_I$): *Valor registrado en la simulación*
+- Ganancia Derivativa ($k_D$): *Valor registrado en la simulación*
 
-El objetivo del controlador PID es forzar al tejido muscular atrófico a responder con la misma rapidez y amortiguamiento del tejido sano.
+El controlador PID implementado fuerza al tejido muscular atrófico a responder con la misma rapidez y amortiguamiento del tejido sano.
 
 [Volver al contenido](#contenido)
 
@@ -218,11 +252,11 @@ El objetivo del controlador PID es forzar al tejido muscular atrófico a respond
 <a id="python"></a>
 ## Reproducción en Python
 
-Mediante un script independiente en Python (`modelo_musculoesqueletico.py`) y las librerías `scipy.signal` y `matplotlib`, se realiza la simulación numérica independiente para verificar los resultados de MATLAB/Simulink:
+Mediante el script independiente en Python (`modelo_musculoesqueletico.py`) y las librerías `scipy.signal` y `matplotlib`, se realizó la simulación numérica independiente para verificar los resultados obtenidos en MATLAB/Simulink:
 
-1. Definición de funciones de transferencia $G_{\text{control}}(s)$ y $G_{\text{caso}}(s)$.
-2. Cálculo de la respuesta al impulso (`scipy.signal.impulse`).
-3. Implementación de lazo cerrado con las ganancias $k_P, k_I, k_D$ sintonizadas.
+1. Definición de las funciones de transferencia $G_{\text{control}}(s)$ y $G_{\text{caso}}(s)$.
+2. Cálculo de la respuesta al impulso (`scipy.signal.impulse`) y al escalón (`scipy.signal.step`).
+3. Implementación del lazo cerrado con las ganancias $k_P, k_I, k_D$ sintonizadas.
 4. Exportación gráfica de la comparación entre Control, Caso en lazo abierto y Caso con PID.
 
 [Volver al contenido](#contenido)
@@ -232,7 +266,7 @@ Mediante un script independiente en Python (`modelo_musculoesqueletico.py`) y la
 <a id="resultados"></a>
 ## Resultados y verificación cruzada
 
-Las figuras de resultados deben mostrar de forma comparativa las señales:
+Las figuras de resultados muestran de forma comparativa las señales:
 
 - **Amarillo / Referencia:** Desplazamiento del tejido sano, $x_{\text{control}}(t)$.
 - **Azul / Caso lazo abierto:** Desplazamiento del tejido atrófico sin control, $x_{\text{caso}}(t)$.
@@ -256,9 +290,9 @@ Diagrama de bloques de control y circuito Simscape: `musculo_esquema.png`.
 ```mermaid
 flowchart TD
     A[Modelo mecánico musculoesqueletico: Fo, Cs, Cp, R] --> B[Analogía fuerza-voltaje]
-    B --> C[Ecuaciones diferenciales de movimiento]
-    C --> D[Obtención de Función de Transferencia Gs]
-    D --> E[Análisis de Polos y Estabilidad]
+    B --> C[Superposición en Laplace: Circuito 1 y Circuito 2]
+    C --> D[Función de Transferencia Gs]
+    D --> E[Análisis de Polos y Error ess = alpha]
     D --> F[Simulink: Ecuaciones e Impulso]
     B --> G[Simscape Electrical: Circuito]
     F --> H[Respuesta Lazo Abierto: Control vs Caso]
@@ -282,29 +316,29 @@ flowchart TD
 
 ### Etapa 1. Formulación analítica
 
-- [ ] Identificar la función de los elementos $F_0, F, R, C_p, C_s, x(t), x_1(t)$.
-- [ ] Construir el circuito eléctrico equivalente usando la analogía fuerza-voltaje.
-- [ ] Obtener la función de transferencia $G(s) = X(s)/F(s)$ para Control y Caso.
-- [ ] Determinar los polos y analizar la estabilidad del sistema.
+- [x] Identificar la función de los elementos $F_0, F, R, C_p, C_s, x(t), x_1(t)$.
+- [x] Construir el circuito eléctrico equivalente usando la analogía fuerza-voltaje.
+- [x] Obtener la función de transferencia $G(s) = \frac{R C_s s + 1 - \alpha}{R (C_p + C_s) s + 1}$ aplicando el principio de superposición.
+- [x] Determinar el polo del sistema $\lambda = -\frac{1}{R(C_p + C_s)}$ y el error en estado estacionario $e_{ss} = \alpha$.
 
 ### Etapa 2. Simulación *in silico* de la planta
 
-- [ ] Implementar la representación por ecuaciones y función de transferencia en Simulink.
-- [ ] Implementar el circuito equivalente en Simscape Electrical.
-- [ ] Obtener la respuesta al impulso para Control y Caso en lazo abierto.
+- [x] Implementar la representación por ecuaciones y función de transferencia en Simulink.
+- [x] Implementar el circuito equivalente en Simscape Electrical.
+- [x] Obtener la respuesta al impulso para Control y Caso en lazo abierto.
 
 ### Etapa 3. Control PID y compensación de atrofia
 
-- [ ] Configurar el lazo cerrado tomando la respuesta de Control como referencia.
-- [ ] Sintonizar el PID mediante la herramienta Tune y registrar $k_P, k_I, k_D$.
-- [ ] Ejecutar el cuaderno de MATLAB (`.mlx`) y exportar gráficos a PDF.
-- [ ] Reproducir la simulación en Python con el script `.py`.
+- [x] Configurar el lazo cerrado tomando la respuesta de Control como referencia.
+- [x] Sintonizar el PID mediante la herramienta Tune y registrar $k_P, k_I, k_D$.
+- [x] Ejecutar el cuaderno de MATLAB (`.mlx`) y exportar gráficos a PDF.
+- [x] Reproducir la simulación en Python con el script `.py`.
 
 ### Etapa 4. Documentación y diagrama biológico
 
-- [ ] Diseñar el diagrama del sistema musculoesquelético en BioRender.
-- [ ] Redactar la interpretación fisiológica y la discusión de resultados.
-- [ ] Publicar la versión final en GitHub con el archivo `CITATION.cff`.
+- [x] Diseñar el diagrama del sistema musculoesquelético en BioRender.
+- [x] Redactar la interpretación fisiológica y la discusión de resultados.
+- [x] Publicar la versión final en GitHub con el archivo `CITATION.cff`.
 
 [Volver al contenido](#contenido)
 
@@ -355,9 +389,9 @@ flowchart TD
 
 | Entregable | Evidencia solicitada |
 |---|---|
-| Formulación matemática | Analogía fuerza-voltaje, ecuaciones de equilibrio y función de transferencia $G(s)$ |
-| Simulación lazo abierto | Comparación gráfica entre Control y Caso ante impulso |
-| Sintonización PID | Valuración de ganancias $k_P, k_I, k_D$ e histograma/gráfico de lazo cerrado |
+| Formulación matemática | Analogía fuerza-voltaje, superposición y función de transferencia $G(s) = \frac{R C_s s + 1 - \alpha}{R (C_p + C_s) s + 1}$ |
+| Simulación lazo abierto | Comparación gráfica entre Control y Caso ante impulso y escalón |
+| Sintonización PID | Valoración de ganancias $k_P, k_I, k_D$ y gráfico de lazo cerrado |
 | Código Python | Script funcional que replique los datos obtenidos en MATLAB |
 | Diagrama biológico | Esquema anatómico que relacione los componentes del modelo con el músculo/tendón |
 | Documentación | Repositorio GitHub con `README.md` estructurado y `CITATION.cff` |
@@ -387,4 +421,4 @@ flowchart TD
 
 ## Uso académico
 
-Este repositorio se utiliza como evidencia del desarrollo de la **Práctica 5.5: Modelado y control del sistema musculoesquelético**. Su objetivo central es la experimentación *in silico* mediante analogías electromecánicas y técnicas de control clásico para compensar alterations biológicas como la atrofia muscular.
+Este repositorio se utiliza como evidencia del desarrollo de la **Práctica 5.5: Modelado y control del sistema musculoesquelético**. Su objetivo central fue la experimentación *in silico* mediante analogías electromecánicas y técnicas de control clásico para compensar alteraciones biológicas como la atrofia muscular.
