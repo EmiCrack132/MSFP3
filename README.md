@@ -71,7 +71,7 @@ Formular el modelo matemático del sistema musculoesquelético mediante su analo
 - Derivar analíticamente la función de transferencia $G(s) = \frac{F_s(s)}{F(s)}$ aplicando el principio de superposición en el dominio de Laplace.
 - Evaluar la posición del polo $\lambda = -\frac{1}{R(C_p + C_s)}$ y el error en estado estacionario $e_{ss} = \alpha$.
 - Implementar y simular ambas condiciones en MATLAB, Simulink y Simscape Electrical ante una entrada de excitación.
-- Sintonizar las ganancias ($k_P, k_I, k_D$) de un controlador PI que minimice el error $e(t) = x_{\text{control}}(t) - x_{\text{caso}}(t)$.
+- Sintonizar las ganancias ($k_P, k_I$) de un controlador PI que minimice el error $e(t) = x_{\text{control}}(t) - x_{\text{caso}}(t)$.
 - Reproducir el comportamiento dinámico en lazo abierto y lazo cerrado mediante el script de Python `Gomez23212196.py`.
 - Elaborar un diagrama biológico detallado en BioRender (`Biorender.jpg`) que vincule la estructura anatómica del músculo y tendón con los componentes del modelo.
 
@@ -229,7 +229,7 @@ Se diseñó una estructura de control retroalimentada donde la respuesta del mú
 ```mermaid
 flowchart LR
     R["r(t)<br/>(Control / Sano)"] -->|"+"| SUM(("Σ"))
-    SUM -->|"e(t)"| PI["Controlador PI<br/>(k_P, k_I, k_D)"]
+    SUM -->|"e(t)"| PI["Controlador PI<br/>(k_P, k_I)"]
     PI -->|"u(t)"| CASE["Planta Atrofia<br/>(Caso) G(s)"]
     CASE --> OUTPUT["Fs_caso(t)"]
     OUTPUT -->|" - "| SUM
@@ -241,7 +241,6 @@ Mediante la herramienta **Tune** del bloque `PI Controller` en Simulink, se sint
 
 - Ganancia Proporcional ($k_P$): *Valor sintonizado en PI Tune*
 - Ganancia Integral ($k_I$): *Valor sintonizado en PI Tune*
-- Ganancia Derivativa ($k_D$): *Valor sintonizado en PI Tune*
 
 El controlador PI implementado obliga al tejido muscular atrófico a responder de manera idéntica al tejido sano.
 
@@ -256,7 +255,7 @@ Mediante el script en Python (`Gomez23212196.py`) y las librerías `scipy.signal
 
 1. Definición de las funciones de transferencia $G_{\text{control}}(s)$ y $G_{\text{caso}}(s)$.
 2. Simulación de la respuesta dinámica ante la entrada $F(t)$.
-3. Implementación del lazo cerrado con las ganancias $k_P, k_I, k_D$ sintonizadas.
+3. Implementación del lazo cerrado con las ganancias $k_P, k_I$ sintonizadas.
 4. Exportación gráfica a `Muscoesqueletico_python.pdf`.
 
 [Volver al contenido](#contenido)
@@ -333,7 +332,7 @@ flowchart TD
 ### Etapa 3. Control PI y compensación de atrofia
 
 - [x] Configurar el lazo cerrado tomando la respuesta de Control como referencia.
-- [x] Sintonizar el PI mediante la herramienta Tune y registrar $k_P, k_I, k_D$ en `Ganancias.jpg`.
+- [x] Sintonizar el PI mediante la herramienta Tune y registrar $k_P, k_I$ en `Ganancias.jpg`.
 - [x] Ejecutar el cuaderno de MATLAB (`Gomez23212196.mlx`) y exportar a PDF (`Gomez23212196.pdf` y `Muscoesqueletico_matlab.pdf`).
 - [x] Reproducir la simulación en Python con el script `Gomez23212196.py` y generar `Muscoesqueletico_python.pdf`.
 
