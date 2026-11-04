@@ -1,4 +1,5 @@
-# Práctica 5.5 — Modelado y control del sistema musculoesquelético
+[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=EmiCrack132/MSFP3)
+# Práctica 3: Modelado y control del sistema musculoesquelético
 
 Repositorio académico de la asignatura **Modelado de Sistemas Fisiológicos**, correspondiente al programa de **Ingeniería Biomédica** del Tecnológico Nacional de México / Instituto Tecnológico de Tijuana. Esta práctica integra el modelado mecánico del tejido muscular, analogías electromecánicas (fuerza-voltaje), análisis analítico en el dominio de Laplace mediante superposición, simulación computacional *in silico* (MATLAB, Simulink, Simscape y Python) y el diseño de controladores PI para la compensación de la atrofia muscular.
 
@@ -228,11 +229,11 @@ Se diseñó una estructura de control retroalimentada donde la respuesta del mú
 
 ```mermaid
 flowchart LR
-    R["Fs(t)<br/>(Control / Sano)"] -->|"+"| SUM(("Σ"))
-    SUM -->|"PID(t)"| PI["Controlador PI<br/>(k_P, k_I)"]
-    PI -->|"u(t)"| CASE["Planta Atrofia<br/>(Caso) G(s)"]
-    CASE --> OUTPUT["Fs_caso(t)"]
-    OUTPUT -->|" - "| SUM
+    R["Fs(t): Control"] -->|"+"| SUM(("Σ"))
+    SUM -->|"e(t)"| PI["Controlador PI<br/>(k_P, k_I)"]
+    PI -->|"PI(t)"| CASE["Planta Atrofia<br/>(Caso) G(s)"]
+    CASE --> OUTPUT["Fs(t): Caso"]
+    OUTPUT -->|"- "| SUM
 ```
 
 ### 2. Sintonización de ganancias
