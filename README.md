@@ -1,8 +1,8 @@
 # Práctica 5.5 — Modelado y control del sistema musculoesquelético
 
-Repositorio académico de la asignatura **Modelado de Sistemas Fisiológicos**, correspondiente al programa de **Ingeniería Biomédica** del Tecnológico Nacional de México / Instituto Tecnológico de Tijuana. Esta práctica integra el modelado mecánico del tejido muscular, analogías electromecánicas (fuerza-voltaje), análisis analítico en el dominio de Laplace mediante superposición, simulación computacional *in silico* (MATLAB, Simulink, Simscape y Python) y el diseño de controladores PID para la compensación de la atrofia muscular.
+Repositorio académico de la asignatura **Modelado de Sistemas Fisiológicos**, correspondiente al programa de **Ingeniería Biomédica** del Tecnológico Nacional de México / Instituto Tecnológico de Tijuana. Esta práctica integra el modelado mecánico del tejido muscular, analogías electromecánicas (fuerza-voltaje), análisis analítico en el dominio de Laplace mediante superposición, simulación computacional *in silico* (MATLAB, Simulink, Simscape y Python) y el diseño de controladores PI para la compensación de la atrofia muscular.
 
-El caso de estudio representa la **dinámica viscoelástica del músculo esquelético** mediante un modelo mecánico de parámetros concentrados (elementos elásticos en serie/paralelo y amortiguamiento viscoso). Se analiza la respuesta del sistema en un individuo sano (**Control**) frente a un escenario simulado de atrofia muscular (**Caso**), implementando un controlador PID que elimina la discrepancia entre ambas respuestas.
+El caso de estudio representa la **dinámica viscoelástica del músculo esquelético** mediante un modelo mecánico de parámetros concentrados (elementos elásticos en serie/paralelo y amortiguamiento viscoso). Se analiza la respuesta del sistema en un individuo sano (**Control**) frente a un escenario simulado de atrofia muscular (**Caso**), implementando un controlador PI que elimina la discrepancia entre ambas respuestas.
 
 **Docente:** Dr. Paul Antonio Valle Trujillo  
 **Correo:** paul.valle@tectijuana.edu.mx · paul.vt@tijuana.tecnm.mx  
@@ -10,7 +10,7 @@ El caso de estudio representa la **dinámica viscoelástica del músculo esquel�
 **Institución:** Tecnológico Nacional de México / Instituto Tecnológico de Tijuana  
 **Asignatura:** Modelado de Sistemas Fisiológicos (IBF-1020)  
 **Programa:** Ingeniería Biomédica  
-**Estudiante:** Gómez · 23212196 · l23212196@tijuana.tecnm.mx  
+**Estudiante:** Emiliano Gómez Quiroa · 23212196 · l23212196@tijuana.tecnm.mx  
 
 **Repositorio de la asignatura:** https://github.com/DrPaulValle/MSF-IBF1020  
 **Repositorio del proyecto:** https://github.com/EmiCrack132/MSFP3  
@@ -29,7 +29,7 @@ El caso de estudio representa la **dinámica viscoelástica del músculo esquel�
 6. [Análisis temporal y de estabilidad](#analisis)
 7. [Señales de entrada y condiciones de simulación](#senales)
 8. [Implementación en MATLAB, Simulink y Simscape](#matlab)
-9. [Control en lazo cerrado y sintonización PID](#pid)
+9. [Control en lazo cerrado y sintonización PI](#PI)
 10. [Reproducción en Python](#python)
 11. [Resultados y verificación cruzada](#resultados)
 12. [Flujo de trabajo](#flujo)
@@ -46,9 +46,9 @@ El caso de estudio representa la **dinámica viscoelástica del músculo esquel�
 
 La práctica tuvo como propósito **modelar, analizar y controlar la respuesta dinámica del sistema musculoesquelético** ante un caso de atrofia muscular mediante experimentación *in silico*. El compartimento muscular se representó mediante un modelo mecánico constituido por un elemento contráctil activo ($F_0$), una compliancia elástica en serie ($C_s$), una compliancia elástica en paralelo ($C_p$) y una amortiguación viscosa ($R$).
 
-Haciendo uso de la **analogía fuerza-voltaje**, el sistema mecánico se transformó en un circuito eléctrico equivalente donde las fuerzas corresponden a voltajes, las velocidades a corrientes, las compliancias a capacitancias y la fricción viscosa a resistencias. Debido a la presencia de la fuente dependiente $F_0(t) = \alpha F(t)$, el modelo se dedujo analíticamente utilizando el **principio de superposición en el dominio de Laplace**. Se evaluó la respuesta al impulso y al pulso de excitación en condición normal (control) y se contrastó con la condición de atrofia muscular (caso), caracterizada por un incremento en la componente viscosa ($R$). Finalmente, se sintonizó e implementó un **controlador PID con retroalimentación negativa** para lograr que el tejido atrofiado siga la trayectoria del tejido sano, verificando la consistencia entre MATLAB/Simulink, Simscape Electrical y Python.
+Haciendo uso de la **analogía fuerza-voltaje**, el sistema mecánico se transformó en un circuito eléctrico equivalente donde las fuerzas corresponden a voltajes, las velocidades a corrientes, las compliancias a capacitancias y la fricción viscosa a resistencias. Debido a la presencia de la fuente dependiente $F_0(t) = \alpha F(t)$, el modelo se dedujo analíticamente utilizando el **principio de superposición en el dominio de Laplace**. Se evaluó la respuesta al impulso y al pulso de excitación en condición normal (control) y se contrastó con la condición de atrofia muscular (caso), caracterizada por un incremento en la componente viscosa ($R$). Finalmente, se sintonizó e implementó un **controlador PI con retroalimentación negativa** para lograr que el tejido atrofiado siga la trayectoria del tejido sano, verificando la consistencia entre MATLAB/Simulink, Simscape Electrical y Python.
 
-**Palabras clave:** Sistema musculoesquelético; Atrofia muscular; Controlador PID; Modelo matemático; Simulaciones numéricas.
+**Palabras clave:** Sistema musculoesquelético; Atrofia muscular; Controlador PI; Modelo matemático; Simulaciones numéricas.
 
 [Volver al contenido](#contenido)
 
@@ -63,7 +63,7 @@ Modelizar sistemas fisiológicos mediante analogías entre sistemas físicos, ec
 
 ### Objetivo general
 
-Formular el modelo matemático del sistema musculoesquelético mediante su analogía eléctrica equivalente, simular su respuesta dinámica en lazo abierto para condiciones de salud y atrofia muscular, y diseñar un sistema de control PID en lazo cerrado que compense la alteración mecánica del tejido.
+Formular el modelo matemático del sistema musculoesquelético mediante su analogía eléctrica equivalente, simular su respuesta dinámica en lazo abierto para condiciones de salud y atrofia muscular, y diseñar un sistema de control PI en lazo cerrado que compense la alteración mecánica del tejido.
 
 ### Objetivos específicos
 
@@ -71,7 +71,7 @@ Formular el modelo matemático del sistema musculoesquelético mediante su analo
 - Derivar analíticamente la función de transferencia $G(s) = \frac{F_s(s)}{F(s)}$ aplicando el principio de superposición en el dominio de Laplace.
 - Evaluar la posición del polo $\lambda = -\frac{1}{R(C_p + C_s)}$ y el error en estado estacionario $e_{ss} = \alpha$.
 - Implementar y simular ambas condiciones en MATLAB, Simulink y Simscape Electrical ante una entrada de excitación.
-- Sintonizar las ganancias ($k_P, k_I, k_D$) de un controlador PID que minimice el error $e(t) = x_{\text{control}}(t) - x_{\text{caso}}(t)$.
+- Sintonizar las ganancias ($k_P, k_I, k_D$) de un controlador PI que minimice el error $e(t) = x_{\text{control}}(t) - x_{\text{caso}}(t)$.
 - Reproducir el comportamiento dinámico en lazo abierto y lazo cerrado mediante el script de Python `Gomez23212196.py`.
 - Elaborar un diagrama biológico detallado en BioRender (`Biorender.jpg`) que vincule la estructura anatómica del músculo y tendón con los componentes del modelo.
 
@@ -88,7 +88,7 @@ La práctica integró contenidos correspondientes a las unidades temáticas de l
 |---|---|---|
 | I | Sistemas de control retroalimentados | Diagramas de bloques, respuesta temporal, error de seguimiento $e_{ss} = \alpha$ y análisis de estabilidad de polos |
 | II | Modelado matemático | Analogía mecánica (fuerza-voltaje), principio de superposición, modelos de parámetros concentrados del sistema musculoesquelético y funciones de transferencia |
-| III | Controladores | Controladores PID, sintonización de ganancias y sistemas de compensación *in silico* |
+| III | Controladores | Controladores PI, sintonización de ganancias y sistemas de compensación *in silico* |
 
 [Volver al contenido](#contenido)
 
@@ -219,8 +219,8 @@ El cuaderno computacional `Gomez23212196.mlx` ejecuta las simulaciones, extrae l
 
 ---
 
-<a id="pid"></a>
-## Control en lazo cerrado y sintonización PID
+<a id="PI"></a>
+## Control en lazo cerrado y sintonización PI
 
 ### 1. Esquema de control
 
@@ -229,21 +229,21 @@ Se diseñó una estructura de control retroalimentada donde la respuesta del mú
 ```mermaid
 flowchart LR
     R["r(t)<br/>(Control / Sano)"] -->|"+"| SUM(("Σ"))
-    SUM -->|"e(t)"| PID["Controlador PID<br/>(k_P, k_I, k_D)"]
-    PID -->|"u(t)"| CASE["Planta Atrofia<br/>(Caso) G(s)"]
+    SUM -->|"e(t)"| PI["Controlador PI<br/>(k_P, k_I, k_D)"]
+    PI -->|"u(t)"| CASE["Planta Atrofia<br/>(Caso) G(s)"]
     CASE --> OUTPUT["Fs_caso(t)"]
     OUTPUT -->|" - "| SUM
 ```
 
 ### 2. Sintonización de ganancias
 
-Mediante la herramienta **Tune** del bloque `PID Controller` en Simulink, se sintonizaron las ganancias del controlador para el modelo de atrofia (registradas en `Ganancias.jpg`):
+Mediante la herramienta **Tune** del bloque `PI Controller` en Simulink, se sintonizaron las ganancias del controlador para el modelo de atrofia (registradas en `Ganancias.jpg`):
 
-- Ganancia Proporcional ($k_P$): *Valor sintonizado en PID Tune*
-- Ganancia Integral ($k_I$): *Valor sintonizado en PID Tune*
-- Ganancia Derivativa ($k_D$): *Valor sintonizado en PID Tune*
+- Ganancia Proporcional ($k_P$): *Valor sintonizado en PI Tune*
+- Ganancia Integral ($k_I$): *Valor sintonizado en PI Tune*
+- Ganancia Derivativa ($k_D$): *Valor sintonizado en PI Tune*
 
-El controlador PID implementado obliga al tejido muscular atrófico a responder de manera idéntica al tejido sano.
+El controlador PI implementado obliga al tejido muscular atrófico a responder de manera idéntica al tejido sano.
 
 [Volver al contenido](#contenido)
 
@@ -271,16 +271,16 @@ En los archivos `Muscoesqueletico_matlab.pdf` y `Muscoesqueletico_python.pdf` se
 - **Señal de entrada $F(t)$:** Pulso de excitación de $1\,\mathrm{V}$ aplicado entre $t=1\,\mathrm{s}$ y $t=2\,\mathrm{s}$.
 - **Respuesta de Control $F_s(t)$:** Comportamiento dinámico del tejido muscular sano en condición normal.
 - **Respuesta de Caso $F_s(t)$:** Respuesta del tejido con atrofia muscular en lazo abierto, evidenciando un retraso severo y dinamismo sobreamortiguado debido a la mayor viscosidad $R$.
-- **Tratamiento PID:** Respuesta del tejido atrófico compensado mediante el controlador en lazo cerrado, logrando una superposición exacta con la trayectoria del individuo sano.
+- **Tratamiento PI:** Respuesta del tejido atrófico compensado mediante el controlador en lazo cerrado, logrando una superposición exacta con la trayectoria del individuo sano.
 
 ### Archivos de resultados generados
 
 | Condición | MATLAB / Simulink | Python |
 |---|---|---|
-| Respuesta dinámica y PID | `Muscoesqueletico_matlab.pdf` | `Muscoesqueletico_python.pdf` |
+| Respuesta dinámica y PI | `Muscoesqueletico_matlab.pdf` | `Muscoesqueletico_python.pdf` |
 
 - Demostración matemática: `Análisis matemático P3.pdf`
-- Evidencia de sintonización PID: `Ganancias.jpg`
+- Evidencia de sintonización PI: `Ganancias.jpg`
 - Diagrama biológico: `Biorender.jpg`
 
 [Volver al contenido](#contenido)
@@ -300,7 +300,7 @@ flowchart TD
     B --> G[Simscape Electrical: Circuito]
     F --> H[Respuesta Lazo Abierto: Control vs Caso]
     G --> H
-    D --> I[Diseño del PID e Inserción de Referencia Control]
+    D --> I[Diseño del PI e Inserción de Referencia Control]
     I --> J[Sintonización en Simulink y registro en Ganancias.jpg]
     J --> K[Simulación en Lazo Cerrado]
     D --> L[Python: Gomez23212196.py]
@@ -330,10 +330,10 @@ flowchart TD
 - [x] Implementar el circuito equivalente en Simscape Electrical.
 - [x] Obtener la respuesta temporal para Control y Caso en lazo abierto.
 
-### Etapa 3. Control PID y compensación de atrofia
+### Etapa 3. Control PI y compensación de atrofia
 
 - [x] Configurar el lazo cerrado tomando la respuesta de Control como referencia.
-- [x] Sintonizar el PID mediante la herramienta Tune y registrar $k_P, k_I, k_D$ en `Ganancias.jpg`.
+- [x] Sintonizar el PI mediante la herramienta Tune y registrar $k_P, k_I, k_D$ en `Ganancias.jpg`.
 - [x] Ejecutar el cuaderno de MATLAB (`Gomez23212196.mlx`) y exportar a PDF (`Gomez23212196.pdf` y `Muscoesqueletico_matlab.pdf`).
 - [x] Reproducir la simulación en Python con el script `Gomez23212196.py` y generar `Muscoesqueletico_python.pdf`.
 
@@ -358,7 +358,7 @@ flowchart TD
 ├── Análisis matemático P3.pdf    # Demostración matemática analítica por superposición
 ├── Biorender.jpg                  # Diagrama biológico del músculo y tendón
 ├── Copy_of_sistema.slx            # Modelo en Simulink / Simscape Electrical
-├── Ganancias.jpg                  # Evidencia de sintonización de ganancias PID (PID Tune)
+├── Ganancias.jpg                  # Evidencia de sintonización de ganancias PI (PI Tune)
 ├── Gomez23212196.mlx              # Cuaderno MATLAB de simulación
 ├── Gomez23212196.pdf              # Exportación en PDF del cuaderno MATLAB
 ├── Gomez23212196.py               # Script de simulación en Python
@@ -395,7 +395,7 @@ flowchart TD
 |---|---|
 | Formulación matemática | Analogía fuerza-voltaje, superposición y función de transferencia en `Análisis matemático P3.pdf` |
 | Simulación lazo abierto | Comparación gráfica entre Control y Caso en `Muscoesqueletico_matlab.pdf` |
-| Sintonización PID | Ganancias $k_P, k_I, k_D$ en `Ganancias.jpg` y gráfico de tratamiento PID |
+| Sintonización PI | Ganancias $k_P, k_I$ en `Ganancias.jpg` y gráfico de tratamiento PI |
 | Código Python | Script funcional `Gomez23212196.py` y gráfica `Muscoesqueletico_python.pdf` |
 | Diagrama biológico | Esquema anatómico en `Biorender.jpg` |
 | Documentación | Repositorio GitHub con `README.md` estructurado, `LICENSE` y `CITATION.cff` |
